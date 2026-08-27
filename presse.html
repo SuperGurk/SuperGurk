@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supergurk – Presse</title>
+    <style>
+        :root {
+            --primary-teal: #1a8b9d;
+            --primary-teal-dark: #126370;
+            --accent-yellow: #f2e205;
+            --text-dark: #222222;
+            --text-light: #ffffff;
+            --bg-light: #f8f9fa;
+            --card-bg: #ffffff;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --radius-std: 12px;
+            --shadow-std: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--accent-yellow);
+            color: var(--text-dark);
+            font-weight: bold;
+            border-radius: 25px;
+            transition: transform 0.2s, background-color 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background-color: #ffd700;
+        }
+
+        header {
+            background-color: var(--primary-teal);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-std);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            max-width: 1200px;
+        }
+
+        .logo-container img {
+            max-height: 45px;
+            width: auto;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--accent-yellow);
+        }
+
+        .hero {
+            background-color: var(--primary-teal);
+            color: var(--text-light);
+            border-bottom: 5px solid var(--accent-yellow);
+            padding: 60px 0;
+        }
+
+        .hero-grid {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .hero-text h1 {
+            font-size: 2.5rem;
+            color: var(--accent-yellow);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+        }
+
+        .hero-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: var(--radius-std);
+            overflow: hidden;
+            box-shadow: var(--shadow-std);
+        }
+
+        .section-padding {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--primary-teal);
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-yellow);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-std);
+            overflow: hidden;
+            box-shadow: var(--shadow-std);
+            width: calc(25% - 20px);
+            min-width: 240px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            color: var(--primary-teal);
+            font-weight: bold;
+            margin-top: auto;
+            margin-bottom: 12px;
+        }
+
+        .info-box {
+            background-color: var(--primary-teal-dark);
+            color: var(--text-light);
+            padding: 40px;
+            border-radius: var(--radius-std);
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .info-box h2 {
+            color: var(--accent-yellow);
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background-color: #111;
+            color: #ccc;
+            padding: 40px 0 20px;
+            font-size: 0.9rem;
+        }
+
+        .footer-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-col h4 {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 8px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .product-card {
+                width: calc(50% - 15px);
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-container">
+            <div class="logo-container">
+                <a href="#">
+                    <img src="https://github.com/SuperGurk/SuperGurk/blob/main/Medien/Logos/SuperGurk-Logo-transparent.png?raw=true" alt="Supergurk Logo">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#angebote">Angebote</a></li>
+                    <li><a href="#filialen">Filialen</a></li>
+                    <li><a href="#presse">Presse</a></li>
+                    <li><a href="#ueber-uns">Über Uns</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-text">
+                <h1>Gut, Besser, SUPERGURK</h1>
+                <p>Unsere neue Kampagne "Gut, Besser, SUPERGURK" geht an den Start. Alle Infos dazu findest du im Artikel.</p>
+                <a href="#angebote" class="btn">Jetzt Artikel lesen</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://github.com/SuperGurk/SuperGurk/blob/main/Medien/Maerkte/Markt-Homepage.jpeg?raw=true" alt="Supergurk Filiale Außenansicht">
+            </div>
+        </div>
+    </section>
+
+
+    <section id="angebote" class="container section-padding">
+        <h2 class="section-title">Weitere aktuelle Artikel</h2>
+        
+        <div class="product-grid">
+            
+            <!-- Produkt 1 -->
+            <div class="product-card">
+                <img src="https://github.com/SuperGurk/SuperGurk/blob/main/Medien/Produktfotos/Gurken.jpg?raw=true" alt="Salatgurke">
+                <div class="product-info">
+                    <div class="product-title">Modernisierung voller Erfolg</div>
+                    <p>Die Modernisierung aller SuperGurk-Märkte ist abgeschlossen und bringt, was wir erhofft hatten.</p>
+                    <div class="product-price"></div>
+              <a href="#angebote" class="btn">Jetzt Artikel lesen</a>
+                </div>
+            </div>
+
+            <!-- Produkt 2 -->
+            <div class="product-card">
+                <img src="https://github.com/SuperGurk/SuperGurk/blob/main/Medien/Produktfotos/Gewuerzgurken.jpg?raw=true" alt="Gewürzgurken">
+                <div class="product-info">
+                    <div class="product-title">Erste Welle an Renovierungen abgeschlossen</div>
+                    <p>Nach wenigen Monaten sind die ersten Märkte fit für die Zukunft!</p>
+                    <div class="product-price"></div>
+              <a href="#angebote" class="btn">Jetzt Artikel lesen</a>
+                </div>
+            </div>
+
+            <!-- Produkt 3 -->
+            <div class="product-card">
+                <img src="https://github.com/SuperGurk/SuperGurk/blob/main/Medien/Produktfotos/Blaubeeren.jpg?raw=true" alt="Bio Obstkorb">
+                <div class="product-info">
+                    <div class="product-title">Wir schließen weitere 20 Filialen</div>
+                    <p>Leider schließen wir demnächst weitere 20 unserer Filialen. Gründe dafür lest ihr hier.</p>
+                    <div class="product-price"></div>
+              <a href="#angebote" class="btn">Jetzt Artikel lesen</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://github.com/SuperGurk/SuperGurk/blob/main/Medien/Produktfotos/Blaubeeren.jpg?raw=true" alt="Bio Obstkorb">
+                <div class="product-info">
+                    <div class="product-title">Wir schließen über 10 Filialen</div>
+                    <p>Leider schließen wir demnächst über 10 unserer Filialen. Genaue Standorte und Gründe dafür lest ihr hier.</p>
+                    <div class="product-price"></div>
+              <a href="#angebote" class="btn">Jetzt Artikel lesen</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://github.com/SuperGurk/SuperGurk/blob/main/Medien/Produktfotos/Vollkornbrot.jpg?raw=true" alt="Vollkornbrot">
+                <div class="product-info">
+                    <div class="product-title">Weihnachten bei SuperGurk</div>
+                    <p>Sie feiern Weihnachten? Dann kommen Sie doch mal zu uns!</p>
+                    <div class="product-price"></div>
+              <a href="#angebote" class="btn">Jetzt Artikel lesen</a>
+                </div>
+            </div>
+    </section>
+
+
+    <footer id="kontakt">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4>SuperGurk</h4>
+                <p>Dein Partner für Frische, Qualität und gute Preise in der Region.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Bei uns:</h4>
+                <ul>
+                    <li><a href="#angebote">Aktuelle Angebote</a></li>
+                    <li><a href="#filialen">Filialen & Öffnungszeiten</a></li>
+                    <li><a href="#presse">Presse</a></li>
+                    <li><a href="#">Karriere bei Supergurk</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Rechtliches</h4>
+                <ul>
+                    <li><a href="#">Impressum</a></li>
+                    <li><a href="#">Datenschutz</a></li>
+                    <li><a href="#">AGB</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SuperGurk Supermärkte. Alle Rechte vorbehalten. Website mit KI erstellt.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
