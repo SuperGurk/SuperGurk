@@ -250,6 +250,22 @@
             font-style: normal;
             font-weight: bold;
         }
+/* Modul: Videoplayer */
+.mod-video {
+    margin-bottom: 30px;
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: var(--radius-std);
+    box-shadow: var(--shadow-std);
+}
+
+.mod-video video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    background-color: #000; /* Schwarzer Hintergrund beim Laden */
+}
 
         /* ==========================================================================
            5. FOOTER
@@ -428,6 +444,14 @@
             <a href="index.html#kontakt" class="btn">Kontakt aufnehmen</a>
         </section>
 
+<!-- BAUSTEIN: Videoplayer mit Vorschaubild -->
+<figure class="mod-video">
+    <video controls poster="https://github.com/SuperGurk/SuperGurk/blob/main/Medien/Presseartikel/Gut-Besser-SUPERGURK-1.png?raw=true">
+        <source src="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/videos/Homepage_Gameplay-Trailer_MC-OV_1080x720.webm" type="video/mp4">
+        Dein Browser unterstützt leider kein HTML5-Video.
+    </video>
+    <figcaption>Bildunterschrift: Videotitel oder kurze Beschreibung zum Video</figcaption>
+</figure>
     </main>
 
 
