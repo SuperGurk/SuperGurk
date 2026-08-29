@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modernisierung voller Erfolg – Supergurk</title>
+    <style>
+        :root {
+            --primary-teal: #1a8b9d;
+            --primary-teal-dark: #126370;
+            --accent-yellow: #f2e205;
+            --text-dark: #222222;
+            --text-muted: #555555;
+            --bg-light: #f8f9fa;
+            --card-bg: #ffffff;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --radius-std: 12px;
+            --shadow-std: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px; /* Schmalere Breite für optimale Lesbarkeit von Texten */
+            margin: 0 auto;
+        }
+
+        /* Button-Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--accent-yellow);
+            color: var(--text-dark);
+            font-weight: bold;
+            border-radius: 25px;
+            transition: transform 0.2s, background-color 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background-color: #ffd700;
+        }
+
+        header {
+            background-color: var(--primary-teal);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-std);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            max-width: 1200px;
+        }
+
+        .logo-container img {
+            max-height: 45px;
+            width: auto;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--accent-yellow);
+        }
+
+        /* ==========================================================================
+           3. SEITEN-HEADER (Kopfbereich der Unterseite)
+           ========================================================================== */
+        .page-header {
+            background-color: var(--primary-teal);
+            color: white;
+            padding: 40px 0 50px;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-yellow);
+        }
+
+        .page-header h1 {
+            font-size: 2.2rem;
+            color: var(--accent-yellow);
+            margin-bottom: 10px;
+        }
+
+        .page-header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* ==========================================================================
+           4. MODULARE BAUSTEINE (TEXT & BILDER)
+           ========================================================================== */
+        main {
+            padding: 50px 0;
+        }
+
+        /* Modul: Reine Text-Sektion */
+        .mod-text {
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: var(--radius-std);
+            box-shadow: var(--shadow-std);
+            margin-bottom: 30px;
+        }
+
+        .mod-text h2 {
+            color: var(--primary-teal);
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+
+        .mod-text p {
+            margin-bottom: 15px;
+        }
+
+        .mod-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Modul: Einzelnes Bild mit Bildunterschrift */
+        .mod-image-single {
+            margin-bottom: 30px;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: var(--radius-std);
+            box-shadow: var(--shadow-std);
+        }
+
+        .mod-image-single img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        figcaption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Modul: Text + Bild Nebeneinander (50/50 Layout) */
+        .mod-text-image {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: var(--radius-std);
+            box-shadow: var(--shadow-std);
+            margin-bottom: 30px;
+        }
+
+        .mod-text-image .content {
+            flex: 1;
+        }
+
+        .mod-text-image .image-wrapper {
+            flex: 1;
+        }
+
+        .mod-text-image img {
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        /* Variante: Bild links, Text rechts */
+        .mod-text-image.reverse {
+            flex-direction: row-reverse;
+        }
+
+        /* Modul: 2 Bilder nebeneinander */
+        .mod-image-gallery-2 {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .mod-image-gallery-2 figure {
+            flex: 1;
+            background: var(--card-bg);
+            padding: 12px;
+            border-radius: var(--radius-std);
+            box-shadow: var(--shadow-std);
+        }
+
+        .mod-image-gallery-2 img {
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        /* Modul: Zitat / Highlight-Box */
+        .mod-quote {
+            background-color: var(--primary-teal-dark);
+            color: white;
+            padding: 30px;
+            border-left: 6px solid var(--accent-yellow);
+            border-radius: var(--radius-std);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+        .mod-quote cite {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--accent-yellow);
+            font-style: normal;
+            font-weight: bold;
+        }
+/* Modul: Videoplayer */
+.mod-video {
+    margin-bottom: 30px;
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: var(--radius-std);
+    box-shadow: var(--shadow-std);
+}
+
+.mod-video video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    background-color: #000; /* Schwarzer Hintergrund beim Laden */
+}
+
+        /* ==========================================================================
+           5. FOOTER
+           ========================================================================== */
+        footer {
+            background-color: #111;
+            color: #ccc;
+            padding: 40px 0 20px;
+            font-size: 0.9rem;
+        }
+
+        .footer-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            max-width: 1200px;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 8px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+
+        /* ==========================================================================
+           6. RESPONSIVE DESIGN (Smartphone Anpassungen)
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .mod-text-image, 
+            .mod-text-image.reverse,
+            .mod-image-gallery-2 {
+                flex-direction: column;
+            }
+
+            .mod-text, .mod-text-image {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER & LOGO -->
+    <header>
+        <div class="container header-container">
+            <div class="logo-container">
+                <!-- LOGO PLATZHALTER -->
+                <a href="https://supergurk.github.io/SuperGurk/">
+                    <img src="https://github.com/SuperGurk/SuperGurk/blob/main/Medien/Logos/SuperGurk-Logo-transparent.png?raw=true" alt="Supergurk Logo">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html#angebote">Angebote</a></li>
+                    <li><a href="index.html#filialen">Filialen</a></li>
+                    <li><a href="https://supergurk.github.io/SuperGurk/presse.html">Presse</a></li>
+                    <li><a href="#">Über Uns</a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- SEITEN-HEADER (Haupttitel der Unterseite) -->
+    <div class="page-header">
+        <div class="container">
+            <h1>Modernisierung voller Erfolg</h1>
+            <p class="subtitle">Unsere Renovierung aller Märkte in ganz Gurkistan wurde erfolgreich abgeschlossen.</p>
+        </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         HAUPTINHALT / MODUL-BAUKASTEN
+         Hier kannst du die einzelnen Blöcke beliebig kopieren oder löschen!
+         ========================================================================== -->
+    <main class="container">
+
+        <!-- BAUSTEIN 1: Reiner Textabschnitt -->
+        <section class="mod-text">
+            <h2>Nach mehreren Monaten Arbeit...</h2>
+            <p>sind endlich wieder all unsere Märkte renoviert und fit für die Zukunft! Die meisten unserer Filialen waren zuvor heruntergekommen und altmodisch. Viele wurden zuletzt vor über 20 Jahren umgebaut. Nun wurde es endlich Zeit, alle Märkte auf denselben Stand der Technik und Ausstattung zu bringen.</p>
+            <h2>Es war viel Planung</h2>
+            <p>Eine der größten Supermarktketten des Landes renoviert man nicht einfach nach Lust und Laune. Wir hatten klare Vorstellungen von einer modernen Einkaufsumgebung für unsere Kundinnen und Kunden und gleichzeitig einen fairen Arbeitsplatz für Mitarbeiterinnen und Mitarbeiter. Vieles konnten wir umsetzen, wie etwa die SB-Kassen oder die großen Fensterfronten für mehr Tageslicht, doch wir mussten aus Budget-Gründen auch einige Abstriche machen, weshalb das finale Ergebnis nicht genau jenes ist, welches wir uns einst vorgestellt hatten. Dennoch freuen wir uns, diesen großen Schritt in Richtung Zukunft endlich hinter uns zu haben.</p>
+            <h2>Wie geht es jetzt weiter?</h2>
+            <p>In den nächsten Monaten wird unser neues Ladenkonzept ausgiebig getestet und gegebenenfalls noch kleine Änderungen vorgenommen. Nach etwa drei bis vier Monaten sollte dann alles soweit sein, dass wir ofiziell sagen können: "Wir leben Zukunft"!.</p>
+        </section>
+
+        <!-- BAUSTEIN 3: Text links, Bild rechts -->
+        <section class="mod-text-image">
+            <div class="content">
+                <h2>Lichtdurchflutet und modern</h2>
+                <p>Ab sofort sind die meisten unserer Märkte lichtdurchflutet mit großen Fensterfronten gestaltet. Dies sorgt für mehr Tageslicht und somit weniger Stromverbrauch tagsüber.</p>
+            </div>
+            <div class="image-wrapper">
+                <figure>
+                    <img src="https://github.com/SuperGurk/SuperGurk/blob/main/Medien/Maerkte/Markt-Homepage.jpeg?raw=true">
+                    <figcaption>Einer unserer modernisierten Filialen. Bild KI-Generiert.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- BAUSTEIN 7: Reiner Text mit Button -->
+        <section class="mod-text" style="text-align: center;">
+            <h2>Neugierig geworden?</h2>
+            <p>Besuche uns doch in einer unserer rund 60 Filialen in ganz Gurkistan!</p>
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4>Supergurk Markt</h4>
+                <p>Dein Partner für Frische, Qualität und gute Preise in der Region.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Bei uns:</h4>
+                <ul>
+                    <li><a href="index.html#angebote">Aktuelle Angebote</a></li>
+                    <li><a href="index.html#filialen">Filialen & Öffnungszeiten</a></li>
+                    <li><a href="https://supergurk.github.io/SuperGurk/presse.html">Presse</a></li>
+                    <li><a href="#">Karriere bei Supergurk</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Rechtliches</h4>
+                <ul>
+                    <li><a href="#">Impressum</a></li>
+                    <li><a href="#">Datenschutz</a></li>
+                    <li><a href="#">AGB</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Supergurk Supermärkte. Alle Rechte vorbehalten. Website mit KI erstellt.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
