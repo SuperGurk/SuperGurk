@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperGurk – Filialfinder & Standorte</title>
+    <!-- FontAwesome icons for services and actions -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-teal: #1a8b9d;
+            --primary-teal-dark: #126370;
+            --accent-yellow: #f2e205;
+            --accent-yellow-hover: #ffd700;
+            --text-dark: #222222;
+            --text-muted: #666666;
+            --text-light: #ffffff;
+            --bg-light: #f8f9fa;
+            --card-bg: #ffffff;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --radius-std: 12px;
+            --radius-sm: 6px;
+            --shadow-std: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background-color: var(--accent-yellow);
+            color: var(--text-dark);
+            font-weight: bold;
+            border-radius: 25px;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background-color: var(--accent-yellow-hover);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .btn-teal {
+            background-color: var(--primary-teal);
+            color: var(--text-light);
+        }
+
+        .btn-teal:hover {
+            background-color: var(--primary-teal-dark);
+            color: var(--text-light);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-teal);
+            color: var(--primary-teal);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-teal);
+            color: var(--text-light);
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary-teal);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-std);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo-container img {
+            max-height: 45px;
+            width: auto;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+        }
+
+        nav a {
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--accent-yellow);
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--primary-teal);
+            color: var(--text-light);
+            border-bottom: 5px solid var(--accent-yellow);
+            padding: 50px 0 60px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: var(--accent-yellow);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            opacity: 0.95;
+        }
+
+        /* Search Section */
+        .search-box-wrapper {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: var(--radius-std);
+            box-shadow: var(--shadow-lg);
+            max-width: 800px;
+            margin: -30px auto 30px auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input-group i {
+            position: absolute;
+            left: 18px;
+            color: var(--primary-teal);
+            font-size: 1.2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            font-size: 1.1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-teal);
+        }
+
+        /* Filter Tags */
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .tag-btn {
+            background-color: #eef4f5;
+            color: var(--primary-teal-dark);
+            border: 1px solid #d0e1e5;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tag-btn:hover, .tag-btn.active {
+            background-color: var(--primary-teal);
+            color: var(--text-light);
+            border-color: var(--primary-teal);
+        }
+
+        /* Section Title */
+        .section-padding {
+            padding: 40px 0 60px 0;
+            flex-grow: 1;
+        }
+
+        .results-info {
+            margin-bottom: 25px;
+            color: var(--text-muted);
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Grid */
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .store-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-std);
+            overflow: hidden;
+            box-shadow: var(--shadow-std);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            cursor: pointer;
+            border: 1px solid #eaeaea;
+            position: relative;
+        }
+
+        .store-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-teal);
+        }
+
+        .store-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-yellow);
+            color: var(--text-dark);
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            z-index: 2;
+        }
+
+        .store-img-wrapper {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+            background-color: #eee;
+        }
+
+        .store-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .store-card:hover .store-img {
+            transform: scale(1.05);
+        }
+
+        .store-card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .store-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-teal-dark);
+            margin-bottom: 10px;
+        }
+
+        .store-address {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .store-address i {
+            color: var(--primary-teal);
+            margin-top: 3px;
+        }
+
+        .store-hours {
+            font-size: 0.88rem;
+            background-color: var(--bg-light);
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .store-hours i {
+            color: #2e7d32;
+        }
+
+        .service-icons-preview {
+            display: flex;
+            gap: 12px;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+            color: var(--primary-teal);
+            font-size: 1.1rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+            background: white;
+            border-radius: var(--radius-std);
+            box-shadow: var(--shadow-std);
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            color: var(--primary-teal);
+            margin-bottom: 15px;
+        }
+
+        /* Modal / Pop-Up */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(3px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-std);
+            max-width: 650px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.2rem;
+            transition: background 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-img-wrapper {
+            height: 250px;
+            width: 100%;
+            position: relative;
+            background-color: #ddd;
+        }
+
+        .modal-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            color: var(--primary-teal-dark);
+            margin-bottom: 10px;
+        }
+
+        .modal-detail-group {
+            margin-bottom: 20px;
+        }
+
+        .modal-detail-title {
+            font-weight: 700;
+            color: var(--primary-teal);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .services-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .service-badge {
+            background-color: #eef4f5;
+            color: var(--primary-teal-dark);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .modal-actions {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #111;
+            color: #ccc;
+            padding: 40px 0 20px;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-col h4 {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 8px;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent-yellow);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .search-box-wrapper {
+                margin-top: -20px;
+                padding: 15px;
+            }
+
+            .store-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .modal-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo-container">
+                <a href="https://supergurk.github.io/SuperGurk/">
+                    <img src="https://github.com/SuperGurk/SuperGurk/blob/main/Medien/Logos/SuperGurk-Logo-transparent.png?raw=true" alt="Supergurk Logo" onerror="this.src='https://placehold.co/200x50/1a8b9d/f2e205?text=SuperGurk'">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html#angebote">Angebote</a></li>
+                    <li><a href="filialen.html" class="active">Filialen</a></li>
+                    <li><a href="https://supergurk.github.io/SuperGurk/presse.html">Presse</a></li>
+                    <li><a href="index.html#ueber-uns">Über Uns</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Unsere SuperGurk Filialen</h1>
+            <p>Finde deine SuperGurk Filiale in deiner Nähe! Entdecke Öffnungszeiten, Adressen und alle Services direkt vor Ort.</p>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <div class="container">
+        <div class="search-box-wrapper">
+            <div class="search-input-group">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="PLZ, Stadt oder Filialname eingeben (z.B. Sesselingen, Lampingen)...">
+            </div>
+            <div class="filter-tags" id="filterTags">
+                <button class="tag-btn active" data-city="ALL">Alle Städte</button>
+                <button class="tag-btn" data-city="Sesselingen">Sesselingen</button>
+                <button class="tag-btn" data-city="Hockerhausen">Hockerhausen</button>
+                <button class="tag-btn" data-city="Lampingen">Lampingen</button>
+                <button class="tag-btn" data-city="Gurkingen">Gurkingen</button>
+                <button class="tag-btn" data-city="Heizungsthal">Heizungsthal</button>
+                <button class="tag-btn" data-city="Lichtenhausen">Lichtenhausen</button>
+                <button class="tag-btn" data-city="Bad Boden">Bad Boden</button>
+                <button class="tag-btn" data-city="Skatingen">Skatingen</button>
+                <button class="tag-btn" data-city="Fensterdorf">Fensterdorf</button>
+                <button class="tag-btn" data-city="Neu-Gurkingen">Neu-Gurkingen</button>
+                <button class="tag-btn" data-city="Hockeringen">Hockeringen</button>
+                <button class="tag-btn" data-city="Teppingen">Teppingen</button>
+                <button class="tag-btn" data-city="Dielenstedt">Dielenstedt</button>
+                <button class="tag-btn" data-city="Hockweiler">Hockweiler</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Store Results Section -->
+    <section class="container section-padding">
+        <div class="results-info">
+            <span id="resultsCount">Zeige alle Filialen</span>
+            <span id="activeFilterBadge" style="font-weight: 600; color: var(--primary-teal);"></span>
+        </div>
+
+        <div class="store-grid" id="storeGrid">
+            <!-- Cards generated dynamically via JS -->
+        </div>
+    </section>
+
+    <!-- Detail Modal Pop-Up -->
+    <div class="modal-overlay" id="storeModal">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="modalCloseBtn" aria-label="Schließen">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="modal-img-wrapper">
+                <img id="modalImg" class="modal-img" src="" alt="Filialfoto">
+            </div>
+            <div class="modal-body">
+                <h2 id="modalTitle" class="modal-title">Filialname</h2>
+                
+                <div class="modal-detail-group">
+                    <div class="modal-detail-title">
+                        <i class="fa-solid fa-location-dot"></i> Adresse
+                    </div>
+                    <p id="modalAddress" style="color: #444;"></p>
+                </div>
+
+                <div class="modal-detail-group">
+                    <div class="modal-detail-title">
+                        <i class="fa-solid fa-clock"></i> Öffnungszeiten
+                    </div>
+                    <p id="modalHours" style="color: #444;"></p>
+                </div>
+
+                <div class="modal-detail-group">
+                    <div class="modal-detail-title">
+                        <i class="fa-solid fa-phone"></i> Kontakt
+                    </div>
+                    <p id="modalPhone" style="color: #444;"></p>
+                </div>
+
+                <div class="modal-detail-group">
+                    <div class="modal-detail-title">
+                        <i class="fa-solid fa-concierge-bell"></i> Services & Ausstattung
+                    </div>
+                    <div class="services-list" id="modalServices">
+                        <!-- Services dynamically inserted here -->
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <a id="modalRouteBtn" href="#" target="_blank" class="btn btn-teal">
+                        <i class="fa-solid fa-route"></i> Route planen
+                    </a>
+                    <button class="btn btn-outline" id="modalCloseSecondary">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="kontakt">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4>SuperGurk</h4>
+                <p>Dein Partner für Frische, Qualität und gute Preise in deiner Region.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Bei uns:</h4>
+                <ul>
+                    <li><a href="index.html#angebote">Aktuelle Angebote</a></li>
+                    <li><a href="filialen.html">Filialen & Öffnungszeiten</a></li>
+                    <li><a href="https://supergurk.github.io/SuperGurk/presse.html">Presse</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Rechtliches</h4>
+                <ul>
+                    <li><a href="#">Impressum</a></li>
+                    <li><a href="#">Datenschutz</a></li>
+                    <li><a href="#">AGB</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SuperGurk Supermärkte. Alle Rechte vorbehalten. Website mit KI erstellt.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data and Logic -->
+    <script>
+        // High quality store default image & placeholders
+        const DEFAULT_STORE_IMG = "https://github.com/SuperGurk/SuperGurk/blob/main/Medien/Presseartikel/Weitere-Filialen-schliessen.png?raw=true";
+        const FALLBACK_IMG = "https://placehold.co/600x400/1a8b9d/ffffff?text=SuperGurk+Filiale";
+
+        // Store Dataset (Multiple stores for top 3 cities with cardinal directions, and standard stores for the rest)
+        const storesData = [
+            // 1. Sesselingen (Multiple stores with cardinal directions)
+            {
+                id: "sess-nord",
+                city: "Sesselingen",
+                name: "SuperGurk Sesselingen-Nord",
+                street: "Nordstraße 104",
+                zip: "12345",
+                hours: "Mo - Sa: 07:00 - 21:00 Uhr",
+                phone: "01234 / 567 890",
+                image: DEFAULT_STORE_IMG,
+                badge: "Große Bäckerei",
+                services: [
+                    { name: "Frische-Bäckerei", icon: "fa-bread-slice" },
+                    { name: "Leergutautomat", icon: "fa-recycle" },
+                    { name: "Kostenlose Parkplätze", icon: "fa-square-parking" },
+                    { name: "E-Ladesäule", icon: "fa-charging-station" },
+                    { name: "Barrierefrei", icon: "fa-wheelchair" }
+                ]
+            },
+            {
+                id: "sess-sued",
+                city: "Sesselingen",
+                name: "SuperGurk Sesselingen-Süd",
+                street: "Südallee 12",
+                zip: "12346",
+                hours: "Mo - Sa: 07:30 - 20:00 Uhr",
+                phone: "01234 / 567 891",
+                image: "https://placehold.co/600x400/126370/f2e205?text=Sesselingen-S%C3%BCd",
+                badge: "E-Ladesäule",
+                services: [
+                    { name: "Leergutautomat", icon: "fa-recycle" },
+                    { name: "Kostenlose Parkplätze", icon: "fa-square-parking" },
+                    { name: "E-Ladesäule", icon: "fa-charging-station" }
+                ]
+            },
+            {
+                id: "sess-ost",
+                city: "Sesselingen",
+                name: "SuperGurk Sesselingen-Ost",
+                street: "Ostweg 45",
+                zip: "12347",
+                hours: "Mo - Sa: 07:00 - 22:00 Uhr",
+                phone: "01234 / 567 892",
+                image: "https://placehold.co/600x400/1a8b9d/ffffff?text=Sesselingen-Ost",
+                badge: "22 Uhr geöffnet",
+                services: [
+                    { name: "Frische-Bäckerei", icon: "fa-bread-slice" },
+                    { name: "Fleischtheke", icon: "fa-drumstick-bite" },
+                    { name: "Leergutautomat", icon: "fa-recycle" },
+                    { name: "Barrierefrei", icon: "fa-wheelchair" }
+                ]
+            },
+            {
+                id: "sess-west",
+                city: "Sesselingen",
+                name: "SuperGurk Sesselingen-West",
+                street: "Westring 88",
+                zip: "12348",
+                hours: "Mo - Sa: 08:00 - 20:00 Uhr",
+                phone: "01234 / 567 893",
+                image: "https://placehold.co/600x400/126370/ffffff?text=Sesselingen-West",
+                services: [
+                    { name: "Leergutautomat", icon: "fa-recycle" },
+                    { name: "Kostenlose Parkplätze", icon: "fa-square-parking" }
+                ]
+            },
+
+            // 2. Hockerhausen (Multiple stores with cardinal directions)
+            {
+                id: "hock-mitte",
+                city: "Hockerhausen",
+                name: "SuperGurk Hockerhausen-Mitte",
+                street: "Marktplatz 3",
+                zip: "23456",
+                hours: "Mo - Sa: 07:00 - 21:00 Uhr",
+                phone: "02345 / 678 901",
+                image: "https://placehold.co/600x400/1a8b9d/f2e205?text=Hockerhausen-Mitte",
+                badge: "Zentral",
+                services: [
+                    { name: "Frische-Bäckerei", icon: "fa-bread-slice" },
+                    { name: "Salatbar", icon: "fa-bowl-rice" },
+                    { name: "Barrierefrei", icon: "fa-wheelchair" }
+                ]
+            },
+            {
+                id: "hock-nord",
+                city: "Hockerhausen",
+                name: "SuperGurk Hockerhausen-Nord",
+                street: "Nordchaussee 77",
+                zip: "23457",
+                hours: "Mo - Sa: 07:30 - 20:00 Uhr",
+                phone: "02345 / 678 902",
+                image: "https://placehold.co/600x400/126370/ffffff?text=Hockerhausen-Nord",
+                services: [
+                    { name: "Leergutautomat", icon: "fa-recycle" },
+                    { name: "Kostenlose Parkplätze", icon: "fa-square-parking" },
+                    { name: "E-Ladesäule", icon: "fa-charging-station" }
+                ]
+            },
+            {
+                id: "hock-sued",
+                city: "Hockerhausen",
+                name: "SuperGurk Hockerhausen-Süd",
+                street: "Südring 15",
+                zip: "23458",
+                hours: "Mo - Sa: 07:00 - 20:00 Uhr",
+                phone: "02345 / 678 903",
+                image: "https://placehold.co/600x400/1a8b9d/ffffff?text=Hockerhausen-S%C3%BCd",
+                services: [
+                    { name: "Frische-Bäckerei", icon: "fa-bread-slice" },
+                    { name: "Leergutautomat", icon: "fa-recycle" }
+                ]
+            },
+
+            // 3. Lampingen (Multiple stores with cardinal directions)
+            {
+                id: "lamp-sued",
+                city: "Lampingen",
+                name: "SuperGurk Lampingen-Süd",
+                street: "Südstraße 40",
+                zip: "34567",
+                hours: "Mo - Sa: 07:00 - 21:30 Uhr",
+                phone: "03456 / 789 012",
+                image: "https://placehold.co/600x400/126370/f2e205?text=Lampingen-S%C3%BCd",
+                badge: "XL Markt",
+                services: [
+                    { name: "Frische-Bäckerei", icon: "fa-bread-slice" },
+                    { name: "Fleischtheke", icon: "fa-drumstick-bite" },
+                    { name: "Leergutautomat", icon: "fa-recycle" },
+                    { name: "Kostenlose Parkplätze", icon: "fa-square-parking" },
+                    { name: "E-Ladesäule", icon: "fa-charging-station" }
+                ]
+            },
+            {
+                id: "lamp-ost",
+                city: "Lampingen",
+                name: "SuperGurk Lampingen-Ost",
+                street: "Osterpromenade 9",
+                zip: "34568",
+                hours: "Mo - Sa: 08:00 - 20:00 Uhr",
+                phone: "03456 / 789 013",
+                image: "https://placehold.co/600x400/1a8b9d/ffffff?text=Lampingen-Ost",
+                services: [
+                    { name: "Leergutautomat", icon: "fa-recycle" },
+                    { name: "Barrierefrei", icon: "fa-wheelchair" }
+                ]
+            },
+
+            // 4. Gurkingen
+            {
+                id: "gurk-1",
+                city: "Gurkingen",
+                name: "SuperGurk Gurkingen Hauptbahnhof",
+                street: "Bahnhofsplatz 1",
+                zip: "45678",
+                hours: "Mo - Sa: 06:00 - 22:00 Uhr",
+                phone: "04567 / 890 123",
+                image: "https://placehold.co/600x400/1a8b9d/f2e205?text=Gurkingen+Hbf",
+                badge: "Früh geöffnet",
+                services: [
+                    { name: "Frische-Bäckerei", icon: "fa-bread-slice" },
+                    { name: "Salatbar", icon: "fa-bowl-rice" },
+                    { name: "Coffee to go", icon: "fa-mug-hot" }
+                ]
+            },
+
+            // 5. Heizungsthal
+            {
+                id: "heiz-1",
+                city: "Heizungsthal",
+                name: "SuperGurk Heizungsthal",
+                street: "Thermenstraße 22",
+                zip: "56789",
+                hours: "Mo - Sa: 07:30 - 20:00 Uhr",
+                phone: "05678 / 901 234",
+                image: "https://placehold.co/600x400/126370/ffffff?text=Heizungsthal",
+                services: [
+                    { name: "Leergutautomat", icon: "fa-recycle" },
+                    { name: "Kostenlose Parkplätze", icon: "fa-square-parking" }
+                ]
+            },
+
+            // 6. Lichtenhausen
+            {
+                id: "licht-1",
+                city: "Lichtenhausen",
+                name: "SuperGurk Lichtenhausen",
+                street: "Sonnenallee 5",
+                zip: "67890",
+                hours: "Mo - Sa: 07:00 - 21:00 Uhr",
+                phone: "06789 / 012 345",
+                image: "https://placehold.co/600x400/1a8b9d/ffffff?text=Lichtenhausen",
+                services: [
+                    { name: "Frische-Bäckerei", icon: "fa-bread-slice" },
+                    { name: "Leergutautomat", icon: "fa-recycle" },
+                    { name: "Kostenlose Parkplätze", icon: "fa-square-parking" }
+                ]
+            },
+
+            // 7. Bad Boden
+            {
+                id: "badb-1",
+                city: "Bad Boden",
+                name: "SuperGurk Bad Boden",
+                street: "Kurparkweg 12",
+                zip: "78901",
+                hours: "Mo - Sa: 08:00 - 19:30 Uhr",
+                phone: "07890 / 123 456",
+                image: "https://placehold.co/600x400/126370/f2e205?text=Bad+Boden",
+                services: [
+                    { name: "Frische-Bäckerei", icon: "fa-bread-slice" },
+                    { name: "Barrierefrei", icon: "fa-wheelchair" }
+                ]
+            },
+
+            // 8. Skatingen
+            {
+                id: "skat-1",
+                city: "Skatingen",
+                name: "SuperGurk Skatingen",
+                street: "Rollschuhbahn 88",
+                zip: "89012",
+                hours: "Mo - Sa: 07:00 - 21:00 Uhr",
+                phone: "08901 / 234 567",
+                image: "https://placehold.co/600x400/1a8b9d/ffffff?text=Skatingen",
+                services: [
+                    { name: "Leergutautomat", icon: "fa-recycle" },
+                    { name: "E-Ladesäule", icon: "fa-charging-station" }
+                ]
+            },
+
+            // 9. Fensterdorf
+            {
+                id: "fenster-1",
+                city: "Fensterdorf",
+                name: "SuperGurk Fensterdorf",
+                street: "Aussichtsweg 14",
+                zip: "90123",
+                hours: "Mo - Sa: 07:30 - 20:00 Uhr",
+                phone: "09012 / 345 678",
+                image: "https://placehold.co/600x400/126370/ffffff?text=Fensterdorf",
+                services: [
+                    { name: "Frische-Bäckerei", icon: "fa-bread-slice" },
+                    { name: "Kostenlose Parkplätze", icon: "fa-square-parking" }
+                ]
+            },
+
+            // 10. Neu-Gurkingen
+            {
+                id: "neugurk-1",
+                city: "Neu-Gurkingen",
+                name: "SuperGurk Neu-Gurkingen",
+                street: "Neuer Markt 1",
+                zip: "01234",
+                hours: "Mo - Sa: 07:00 - 22:00 Uhr",
+                phone: "01239 / 876 543",
+                image: "https://placehold.co/600x400/1a8b9d/f2e205?text=Neu-Gurkingen",
+                badge: "Neueröffnung",
+                services: [
+                    { name: "Frische-Bäckerei", icon: "fa-bread-slice" },
+                    { name: "Fleischtheke", icon: "fa-drumstick-bite" },
+                    { name: "E-Ladesäule", icon: "fa-charging-station" },
+                    { name: "Barrierefrei", icon: "fa-wheelchair" }
+                ]
+            },
+
+            // 11. Hockeringen
+            {
+                id: "hockering-1",
+                city: "Hockeringen",
+                name: "SuperGurk Hockeringen",
+                street: "Dorfstraße 63",
+                zip: "11223",
+                hours: "Mo - Sa: 07:30 - 20:00 Uhr",
+                phone: "02233 / 445 566",
+                image: "https://placehold.co/600x400/126370/ffffff?text=Hockeringen",
+                services: [
+                    { name: "Leergutautomat", icon: "fa-recycle" },
+                    { name: "Kostenlose Parkplätze", icon: "fa-square-parking" }
+                ]
+            },
+
+            // 12. Teppingen
+            {
+                id: "tepping-1",
+                city: "Teppingen",
+                name: "SuperGurk Teppingen",
+                street: "Teppichstraße 4",
+                zip: "22334",
+                hours: "Mo - Sa: 07:00 - 20:00 Uhr",
+                phone: "03344 / 556 677",
+                image: "https://placehold.co/600x400/1a8b9d/ffffff?text=Teppingen",
+                services: [
+                    { name: "Frische-Bäckerei", icon: "fa-bread-slice" },
+                    { name: "Leergutautomat", icon: "fa-recycle" }
+                ]
+            },
+
+            // 13. Dielenstedt
+            {
+                id: "dielen-1",
+                city: "Dielenstedt",
+                name: "SuperGurk Dielenstedt",
+                street: "Holzweg 27",
+                zip: "33445",
+                hours: "Mo - Sa: 08:00 - 20:00 Uhr",
+                phone: "04455 / 667 788",
+                image: "https://placehold.co/600x400/126370/f2e205?text=Dielenstedt",
+                services: [
+                    { name: "Kostenlose Parkplätze", icon: "fa-square-parking" },
+                    { name: "Barrierefrei", icon: "fa-wheelchair" }
+                ]
+            },
+
+            // 14. Hockweiler
+            {
+                id: "hockweil-1",
+                city: "Hockweiler",
+                name: "SuperGurk Hockweiler",
+                street: "Weilerweg 9",
+                zip: "44556",
+                hours: "Mo - Sa: 07:00 - 20:00 Uhr",
+                phone: "05566 / 778 899",
+                image: "https://placehold.co/600x400/1a8b9d/ffffff?text=Hockweiler",
+                services: [
+                    { name: "Frische-Bäckerei", icon: "fa-bread-slice" },
+                    { name: "Leergutautomat", icon: "fa-recycle" }
+                ]
+            }
+        ];
+
+        // State variables
+        let currentSearchQuery = "";
+        let currentSelectedCity = "ALL";
+
+        // DOM Elements
+        const storeGrid = document.getElementById("storeGrid");
+        const searchInput = document.getElementById("searchInput");
+        const filterTagsContainer = document.getElementById("filterTags");
+        const resultsCount = document.getElementById("resultsCount");
+        const activeFilterBadge = document.getElementById("activeFilterBadge");
+
+        // Modal DOM Elements
+        const storeModal = document.getElementById("storeModal");
+        const modalImg = document.getElementById("modalImg");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalAddress = document.getElementById("modalAddress");
+        const modalHours = document.getElementById("modalHours");
+        const modalPhone = document.getElementById("modalPhone");
+        const modalServices = document.getElementById("modalServices");
+        const modalRouteBtn = document.getElementById("modalRouteBtn");
+        const modalCloseBtn = document.getElementById("modalCloseBtn");
+        const modalCloseSecondary = document.getElementById("modalCloseSecondary");
+
+        // Render Stores
+        function renderStores() {
+            // Filter logic
+            const filtered = storesData.filter(store => {
+                const matchesSearch = 
+                    store.name.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
+                    store.city.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
+                    store.street.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
+                    store.zip.includes(currentSearchQuery);
+
+                const matchesCity = currentSelectedCity === "ALL" || store.city === currentSelectedCity;
+
+                return matchesSearch && matchesCity;
+            });
+
+            // Update result counter text
+            resultsCount.textContent = `Zeige ${filtered.length} von ${storesData.length} Filialen`;
+            activeFilterBadge.textContent = currentSelectedCity !== "ALL" ? `Stadt: ${currentSelectedCity}` : "";
+
+            // Render empty state if no matches
+            if (filtered.length === 0) {
+                storeGrid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fa-solid fa-store-slash"></i>
+                        <h3>Keine Filialen gefunden</h3>
+                        <p style="margin-top: 8px; color: #666;">Leider konnten wir keine SuperGurk Filiale für deine Suchanfrage finden.</p>
+                        <button class="btn btn-teal" style="margin-top: 20px;" onclick="resetFilters()">Alle Filialen anzeigen</button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Render Store Cards
+            storeGrid.innerHTML = filtered.map(store => {
+                const badgeHtml = store.badge ? `<span class="store-badge">${store.badge}</span>` : '';
+                const servicePreview = store.services.slice(0, 4).map(s => `<i class="fa-solid ${s.icon}" title="${s.name}"></i>`).join('');
+
+                return `
+                    <div class="store-card" onclick="openModal('${store.id}')">
+                        ${badgeHtml}
+                        <div class="store-img-wrapper">
+                            <img class="store-img" src="${store.image}" alt="${store.name}" onerror="this.onerror=null; this.src='${FALLBACK_IMG}';">
+                        </div>
+                        <div class="store-card-body">
+                            <h3 class="store-title">${store.name}</h3>
+                            <div class="store-address">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <span>${store.street}, ${store.zip} ${store.city}</span>
+                            </div>
+                            <div class="store-hours">
+                                <i class="fa-solid fa-clock"></i>
+                                <span>${store.hours}</span>
+                            </div>
+                            <div class="service-icons-preview">
+                                ${servicePreview}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Open Modal Pop-up with store details
+        function openModal(storeId) {
+            const store = storesData.find(s => s.id === storeId);
+            if (!store) return;
+
+            modalTitle.textContent = store.name;
+            modalAddress.textContent = `${store.street}, ${store.zip} ${store.city}`;
+            modalHours.textContent = store.hours;
+            modalPhone.textContent = store.phone;
+            modalImg.src = store.image;
+            modalImg.onerror = function() {
+                this.onerror = null;
+                this.src = FALLBACK_IMG;
+            };
+
+            // Map services
+            modalServices.innerHTML = store.services.map(s => `
+                <div class="service-badge">
+                    <i class="fa-solid ${s.icon}"></i> ${s.name}
+                </div>
+            `).join('');
+
+            // Route Button Google Maps Link
+            const mapsQuery = encodeURIComponent(`${store.name}, ${store.street}, ${store.zip} ${store.city}`);
+            modalRouteBtn.href = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+
+            // Show Modal
+            storeModal.classList.add("active");
+            document.body.style.overflow = "hidden"; // Prevent background scroll
+        }
+
+        // Close Modal Pop-up
+        function closeModal() {
+            storeModal.classList.remove("active");
+            document.body.style.overflow = "";
+        }
+
+        // Reset Filter
+        function resetFilters() {
+            currentSearchQuery = "";
+            currentSelectedCity = "ALL";
+            searchInput.value = "";
+            
+            document.querySelectorAll(".tag-btn").forEach(btn => {
+                btn.classList.toggle("active", btn.dataset.city === "ALL");
+            });
+
+            renderStores();
+        }
+
+        // Event Listeners
+        searchInput.addEventListener("input", (e) => {
+            currentSearchQuery = e.target.value.trim();
+            renderStores();
+        });
+
+        // Filter Tag Buttons
+        filterTagsContainer.addEventListener("click", (e) => {
+            if (e.target.classList.contains("tag-btn")) {
+                document.querySelectorAll(".tag-btn").forEach(btn => btn.classList.remove("active"));
+                e.target.classList.add("active");
+                currentSelectedCity = e.target.dataset.city;
+                renderStores();
+            }
+        });
+
+        // Modal Close Events
+        modalCloseBtn.addEventListener("click", closeModal);
+        modalCloseSecondary.addEventListener("click", closeModal);
+
+        storeModal.addEventListener("click", (e) => {
+            if (e.target === storeModal) {
+                closeModal();
+            }
+        });
+
+        // Keyboard ESC to close modal
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && storeModal.classList.contains("active")) {
+                closeModal();
+            }
+        });
+
+        // Initial Render
+        window.onload = function() {
+            renderStores();
+        };
+    </script>
+</body>
+</html>
