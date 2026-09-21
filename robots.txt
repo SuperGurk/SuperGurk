@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /400.html
+Disallow: /401.html
+Disallow: /403.html
+Disallow: /404.html
+Disallow: /408.html
+Disallow: /409.html
+Disallow: /429.html
+Disallow: /500.html
+Disallow: /502.html
+Disallow: /503.html
+Disallow: /504.html
+Sitemap: https://supergurk.github.io/SuperGurk/sitemap.xml

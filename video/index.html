@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SuperGurk Live-Stream">
+    <!--Hier hat ein Mensch gearbeitet-->
+    <meta name="author" content="SuperGurk">
+    <meta name="theme-color" content="#091113">
+    <link rel="canonical" href="https://supergurk.github.io/SuperGurk/video/">
+    <meta property="og:title" content="SuperGurk Live">
+    <meta property="og:description" content="SuperGurk Live-Übertragungen im HLS-Stream.">
+    <meta property="og:type" content="video.other">
+    <meta property="og:url" content="https://supergurk.github.io/SuperGurk/video/">
+    <!--Hier hat ein Mensch gearbeitet Ende-->
+    <!--Hier hat ein Mensch gearbeitet-->
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link href="https://vjs.zencdn.net/8.23.4/video-js.css" rel="stylesheet">
+    <title>SuperGurk Live</title>
+    <!--Hier hat ein Mensch gearbeitet-->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": "SuperGurk Live",
+        "url": "https://supergurk.github.io/SuperGurk/video/",
+        "description": "SuperGurk Live-Übertragungen im HLS-Stream.",
+        "publisher": { "@type": "Organization", "name": "SuperGurk" }
+    }
+    </script>
+    <!--Hier hat ein Mensch gearbeitet Ende-->
+    <!--Hier hat ein Mensch gearbeitet Ende-->
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #091113;
+            --surface: #111d20;
+            --surface-soft: #17272b;
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #f5f8f7;
+            --muted: #9aaead;
+            --teal: #50d0c2;
+            --yellow: #f4dc4b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background:
+                radial-gradient(circle at 15% 10%, rgba(80, 208, 194, 0.16), transparent 32rem),
+                radial-gradient(circle at 85% 90%, rgba(244, 220, 75, 0.08), transparent 28rem),
+                var(--bg);
+            color: var(--text);
+            font-family: "Segoe UI", Tahoma, sans-serif;
+        }
+
+        .page-shell {
+            width: min(1080px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 36px 0 56px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 52px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .brand img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+
+        .live-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .live-label::before {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--yellow);
+            box-shadow: 0 0 16px var(--yellow);
+            content: "";
+        }
+
+        main {
+            animation: reveal 600ms ease both;
+        }
+
+        .eyebrow {
+            margin: 0 0 14px;
+            color: var(--teal);
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            max-width: 760px;
+            margin: 0;
+            font-size: clamp(2.5rem, 7vw, 5.8rem);
+            line-height: 0.98;
+            letter-spacing: -0.04em;
+        }
+
+        .intro {
+            max-width: 600px;
+            margin: 22px 0 36px;
+            color: var(--muted);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .video-shell {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: var(--surface);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+        }
+
+        .video-js {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            height: auto;
+            background: #05090a;
+        }
+
+        .video-js .vjs-big-play-button {
+            top: 50%;
+            left: 50%;
+            width: 76px;
+            height: 76px;
+            margin: -38px 0 0 -38px;
+            border: 0;
+            border-radius: 50%;
+            background: var(--teal);
+            color: #061011;
+            line-height: 76px;
+        }
+
+        .video-js:hover .vjs-big-play-button,
+        .video-js .vjs-big-play-button:focus {
+            background: var(--yellow);
+        }
+
+        .video-js .vjs-control-bar {
+            background: rgba(9, 17, 19, 0.94);
+        }
+
+        .stream-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 18px 22px;
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        .stream-meta strong {
+            color: var(--text);
+        }
+
+        .status {
+            min-height: 1.4em;
+            margin: 14px 0 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 620px) {
+            .page-shell {
+                padding-top: 24px;
+            }
+
+            .topbar {
+                margin-bottom: 42px;
+            }
+
+            .live-label {
+                font-size: 0.68rem;
+            }
+
+            .stream-meta {
+                flex-direction: column;
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-shell">
+        <!--Hier hat ein Mensch gearbeitet-->
+        <header class="topbar">
+            <a class="brand" href="../">
+                <img src="../Medien/Logos/SuperGurk-Logo-transparent.png" alt="SuperGurk Logo">
+                <span>SUPERGURK</span>
+            </a>
+            <span class="live-label">Live-Übertragung</span>
+        </header>
+        <!--Hier hat ein Mensch gearbeitet Ende-->
+
+        <main>
+            <p class="eyebrow">Gut. Besser. Live.</p>
+            <h1>SuperGurk direkt auf deinem Bildschirm.</h1>
+            <p class="intro">Erlebe aktuelle Inhalte und Nachrichten aus der SuperGurk-Welt in einem zentralen HLS-Livestream.</p>
+
+            <!--Hier hat ein Mensch gearbeitet-->
+            <section class="video-shell" aria-label="SuperGurk HLS-Videoplayer">
+                <video
+                    id="supergurk-player"
+                    class="video-js vjs-big-play-centered"
+                    controls
+                    preload="metadata"
+                    controlsList="nodownload noremoteplayback"
+                    disablePictureInPicture
+                    playsinline
+                    poster="../Medien/Logos/SuperGurk-Logo-transparent.png"
+                >
+                    <p class="vjs-no-js">Bitte aktiviere JavaScript, um diesen Stream abzuspielen.</p>
+                </video>
+                <div class="stream-meta">
+                    <span><strong>SuperGurk Live</strong></span>
+                    <span>HLS · adaptive Qualität</span>
+                </div>
+            </section>
+            <p id="stream-status" class="status" role="status"></p>
+            <!--Hier hat ein Mensch gearbeitet Ende-->
+        </main>
+    </div>
+
+    <script src="https://vjs.zencdn.net/8.23.4/video.min.js"></script>
+    <!--Hier hat ein Mensch gearbeitet-->
+    <script>
+        const HLS_STREAM_URL = "https://example.com/supergurk/stream/index.m3u8";
+        const player = videojs("supergurk-player", {
+            html5: {
+                vhs: {
+                    overrideNative: true
+                }
+            }
+        });
+        const status = document.getElementById("stream-status");
+
+        player.src({
+            src: HLS_STREAM_URL,
+            type: "application/x-mpegURL"
+        });
+
+        player.on("error", () => {
+            status.textContent = "Der Stream ist momentan nicht verfügbar.";
+        });
+
+        document.querySelector(".video-shell").addEventListener("contextmenu", (event) => {
+            event.preventDefault();
+        });
+
+        document.addEventListener("keydown", (event) => {
+            const key = event.key.toLowerCase();
+            const developerToolsShortcut = event.key === "F12"
+                || (event.ctrlKey && event.shiftKey && ["i", "j", "c"].includes(key));
+
+            if (developerToolsShortcut) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        }, true);
+    </script>
+    <!--Hier hat ein Mensch gearbeitet Ende-->
+</body>
+</html>
