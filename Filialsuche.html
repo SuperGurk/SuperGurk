@@ -614,16 +614,16 @@
             </div>
             <div class="filter-tags" id="filterTags">
                 <button class="tag-btn active" data-city="ALL">Alle Städte</button>
-                <button class="tag-btn" data-city="Sesselingen">Zeselinga</button>
-                <button class="tag-btn" data-city="Hockerhausen">Taburetdoma</button>
-                <button class="tag-btn" data-city="Lampingen">Lampinga</button>
-                <button class="tag-btn" data-city="Gurkingen">Gurkinga</button>
-                <button class="tag-btn" data-city="Heizungsthal">Otoplenijtala</button>
-                <button class="tag-btn" data-city="Lichtenhausen">Linta</button>
-                <button class="tag-btn" data-city="Bad Boden">Golva Bad</button>
-                <button class="tag-btn" data-city="Skatingen">Skatinska</button>
-                <button class="tag-btn" data-city="Fensterdorf">Vindovby</button>
-                <button class="tag-btn" data-city="Neu-Gurkingen">Nya-Gurkinga</button>
+                <button class="tag-btn" data-city="Zeselinga">Zeselinga</button>
+                <button class="tag-btn" data-city="Taburetdoma">Taburetdoma</button>
+                <button class="tag-btn" data-city="Lampinga">Lampinga</button>
+                <button class="tag-btn" data-city="Gurkinga">Gurkinga</button>
+                <button class="tag-btn" data-city="Otoplenijtala">Otoplenijtala</button>
+                <button class="tag-btn" data-city="Linta">Linta</button>
+                <button class="tag-btn" data-city="Golva Bad">Golva Bad</button>
+                <button class="tag-btn" data-city="Skatinska">Skatinska</button>
+                <button class="tag-btn" data-city="Vindovby">Vindovby</button>
+                <button class="tag-btn" data-city="Nya-Gurkinga">Nya-Gurkinga</button>
                 <button class="tag-btn" data-city="Hockeringen">Hockeringen</button>
                 <button class="tag-btn" data-city="Hockweiler">Hockweiler</button>
             </div>
@@ -730,10 +730,10 @@
 
         // Store Dataset (Multiple stores for top 3 cities with cardinal directions, and standard stores for the rest)
         const storesData = [
-            // 1. Sesselingen (Multiple stores with cardinal directions)
+            // 1. Zeselinga (Multiple stores with cardinal directions)
             {
                 id: "sess-nord",
-                city: "Sesselingen",
+                city: "Zeselinga",
                 name: "SuperGurk Zeselinga-Nord",
                 street: "Nordstraße 104",
                 zip: "12345",
@@ -751,7 +751,7 @@
             },
             {
                 id: "sess-sued",
-                city: "Sesselingen",
+                city: "Zeselinga",
                 name: "SuperGurk Zeselinga-Süd",
                 street: "Südallee 12",
                 zip: "12346",
@@ -766,10 +766,10 @@
                 ]
             },
 
-            // 2. Hockerhausen (Multiple stores with cardinal directions)
+            // 2. Taburetdoma (Multiple stores with cardinal directions)
             {
                 id: "hock-mitte",
-                city: "Hockerhausen",
+                city: "Taburetdoma",
                 name: "SuperGurk Taburetdoma-Mitte",
                 street: "Marktplatz 3",
                 zip: "23456",
@@ -785,7 +785,7 @@
             },
             {
                 id: "hock-nord",
-                city: "Hockerhausen",
+                city: "Taburetdoma",
                 name: "SuperGurk Taburetdoma-Nord",
                 street: "Nordchaussee 77",
                 zip: "23457",
@@ -800,7 +800,7 @@
             },
             {
                 id: "hock-sued",
-                city: "Hockerhausen",
+                city: "Taburetdoma",
                 name: "SuperGurk Taburetdoma-Süd",
                 street: "Südring 15",
                 zip: "23458",
@@ -813,10 +813,10 @@
                 ]
             },
 
-            // 3. Lampingen (Multiple stores with cardinal directions)
+            // 3. Lampinga (Multiple stores with cardinal directions)
             {
                 id: "lamp-sued",
-                city: "Lampingen",
+                city: "Lampinga",
                 name: "SuperGurk Lampinga-Süd",
                 street: "Südstraße 40",
                 zip: "34567",
@@ -834,7 +834,7 @@
             },
             {
                 id: "lamp-ost",
-                city: "Lampingen",
+                city: "Lampinga",
                 name: "SuperGurk Lampinga-Ost",
                 street: "Osterpromenade 9",
                 zip: "34568",
@@ -848,7 +848,7 @@
             },
                         {
                 id: "lamp-mitte",
-                city: "Lampingen",
+                city: "Lampinga",
                 name: "SuperGurk Lampinga-Mitte",
                 street: "Gurkengasse 23",
                 zip: "34568",
@@ -861,10 +861,10 @@
                 ]
             },
 
-            // 4. Gurkingen
+            // 4. Gurkinga
             {
                 id: "gurk-1",
-                city: "Gurkingen",
+                city: "Gurkinga",
                 name: "SuperGurk Gurkinga",
                 street: "Gurkenweg 3",
                 zip: "45678",
@@ -879,10 +879,10 @@
                 ]
             },
 
-            // 5. Heizungsthal
+            // 5. Otoplenijtala
             {
                 id: "heiz-1",
-                city: "Heizungsthal",
+                city: "Otoplenijtala",
                 name: "SuperGurk Otoplenijtala",
                 street: "Thermenstraße 22",
                 zip: "56789",
@@ -895,10 +895,10 @@
                 ]
             },
 
-            // 6. Lichtenhausen
+            // 6. Linta
             {
                 id: "licht-1",
-                city: "Lichtenhausen",
+                city: "Linta",
                 name: "SuperGurk Linta",
                 street: "Sonnenallee 5",
                 zip: "67890",
@@ -912,10 +912,10 @@
                 ]
             },
 
-            // 7. Bad Boden
+            // 7. Golva Bad
             {
                 id: "badb-1",
-                city: "Bad Boden",
+                city: "Golva Bad",
                 name: "SuperGurk Golva Bad",
                 street: "Kurparkweg 12",
                 zip: "78901",
@@ -928,10 +928,10 @@
                 ]
             },
 
-            // 8. Skatingen
+            // 8. Skatinska
             {
                 id: "skat-1",
-                city: "Skatingen",
+                city: "Skatinska",
                 name: "SuperGurk Skatinska",
                 street: "Rollschuhbahn 88",
                 zip: "89012",
@@ -944,10 +944,10 @@
                 ]
             },
 
-            // 9. Fensterdorf
+            // 9. Vindovby
             {
                 id: "fenster-1",
-                city: "Fensterdorf",
+                city: "Vindovby",
                 name: "SuperGurk Vindovby",
                 street: "Aussichtsweg 14",
                 zip: "90123",
@@ -963,7 +963,7 @@
             // 10. Neu-Gurkingen
             {
                 id: "neugurk-1",
-                city: "Neu-Gurkingen",
+                city: "Nya-Gurkinga",
                 name: "SuperGurk Nya-Gurkinga",
                 street: "Neuer Markt 1",
                 zip: "01234",
